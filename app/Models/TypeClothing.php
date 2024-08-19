@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class TypeClothing extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'description',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }

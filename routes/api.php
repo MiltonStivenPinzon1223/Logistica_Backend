@@ -1,6 +1,14 @@
 <?php
 
+use App\Http\Controllers\AssistenceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\ColletionAccountsController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\LogisticController;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\TypeCertificateController;
+use App\Http\Controllers\TypeClothingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,9 +23,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::post('login',[AuthController::class, 'login']);
 Route::post('register',[AuthController::class, 'register']);
+
+Route::middleware(['auth:sanctum'])->group(function() {
+    Route::apiResource('assitences', AssistenceController::class);
+    Route::apiResource('certificates', CertificateController::class);
+    Route::apiResource('collections/accounts', ColletionAccountsController::class);
+    Route::apiResource('events', EventController::class);
+    Route::apiResource('logistics', LogisticController::class);
+    Route::apiResource('rols', RolController::class);
+    Route::apiResource('types/certificates', TypeCertificateController::class);
+    Route::apiResource('types/clothings', TypeClothingController::class);
+});

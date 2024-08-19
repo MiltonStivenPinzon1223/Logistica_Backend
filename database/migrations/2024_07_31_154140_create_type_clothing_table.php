@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('type_clothing', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
+            $table->string('description');
             $table->timestamps();
         });
     }

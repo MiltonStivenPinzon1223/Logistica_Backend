@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('colletion_accounts', function (Blueprint $table) {
             $table->id();
+            $table->double('price');
+            $table->string('url');
+            $table->integer('status');
+            $table->integer('id_assistences');
             $table->timestamps();
         });
     }

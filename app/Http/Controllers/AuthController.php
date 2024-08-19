@@ -11,6 +11,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        //para el inicio de sesion dependiendo del app
         $app = $request->header('X-App-Identifier');
         $rules = [
             'email' =>'required|email',
@@ -27,6 +28,7 @@ class AuthController extends Controller
             $user = User::where('email', $request->email)->where('password',$request->password)->first();
             if (!$user) {
                 return response()->json(['message' => 'Invalid credentials'], 401);
+            }else if($user->status != 1){
             }else{
                 return response()->json([
                     'status' => True,
@@ -43,6 +45,7 @@ class AuthController extends Controller
         $app = $request->header('X-App-Identifier');
         $rules = [
             'name' => 'required|string|min:1|unique:users|max:255',
+            'document' => 'required|integer|unique:users',
             'email' =>'required|email|unique:users',
             'password' =>'required|string'
         ];
@@ -56,6 +59,8 @@ class AuthController extends Controller
         }else{
             $user = new User($request->input());
             $user->photo = "/users/user.png";
+            $user->status = 1;
+            $user->id_rol = 1;
             $user->save();
             return response()->json([
                 'status' => True,

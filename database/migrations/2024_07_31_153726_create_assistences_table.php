@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('assistences', function (Blueprint $table) {
             $table->id();
+            $table->time('hour');
+            $table->integer('status');
+            $table->integer('id_events');
+            $table->integer('id_logistics');
             $table->timestamps();
         });
     }
