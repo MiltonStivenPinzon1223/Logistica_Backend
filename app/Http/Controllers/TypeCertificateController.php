@@ -76,11 +76,15 @@ class TypeCertificateController extends Controller
     $validator = Validator::make($request->all(), [
         'name' => 'required|string',
     ]);
+    $validate = Controller::validate_exists($request->name, 'type_certificates', 'name', 'id', $id);
 
-    if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422);
-    }
-
+    if ($validator->fails() || $validate == 0) {
+        $msg = ($validate == 0) ? "value tried to register, it is already registered." : $validator->errors()->all();
+        return response()->json([
+            'status' => False,
+            'message' => $msg
+        ]);
+    }else{
     $TypeCertificate =TypeCertificate::find($id);
 
     if (!$TypeCertificate && $TypeCertificate->id_users == $user->id) {
@@ -97,25 +101,16 @@ class TypeCertificateController extends Controller
         ]
     ], 201);
 }
+}
+
+
 
 public function destroy($id)
 {
-    $user = auth()->user();
-
-    if ($user->id_rol !==3) {
-        return response()->json(['error' => 'Accion denegada.'], 403);
-    }
-    $TypeCertificate =TypeCertificate::find($id);
-    if (!$TypeCertificate) {
-        return response()->json(['error' => 'tipo de certificado no encontrado.'], 404);
-    }
-
-    $TypeCertificate->delete();
-
     return response()->json([
-        'status' => true,
+        'status' => false,
         'data' => [
-            'message' => 'tipo de certificado elimado exitosamente'
+            'message' => 'Funcion no disponible'
         ]
     ], 201);
 }
